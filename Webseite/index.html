@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <!-- CSS Imports -->
+    <link rel="stylesheet" type="text/css" href="src/bootstrap.min.css">
+    <link rel="stylesheet" href="src/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+    <!-- ############# -->
+
+    <title>Physik Simulation</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <canvas id="display" style="border: 1px solid black;"></canvas>
+    <div id="container">
+        <div id="main-container"></div>
+        <div id="settings-container"></div>
+        <div id="graph-button" class="graph-button">Graph Einstellungen</div>
+        <div id="ac-button" class="graph-button">Nachträgliche Berechnung</div>
+    </div>
+    <div id="valuedisplay"><canvas id="graphdisplay" width="1110" height="280"></canvas></div>
+
+    <!-- ############# Menü #################### -->
+
+    <div id="menue">
+        <div onclick="addObject()" title="Neues Objekt hinzufügen">+</div>
+        <div onclick="deleteObject()" title="Löschen des Ausgewählten Objekts">-</div>
+        <div onclick="SOLID_BORDERS = !SOLID_BORDERS" title="Solide Grenzen">SB</div>
+        <div onclick="CIRCLE_COLLSISION = !CIRCLE_COLLSISION">CC</div>
+        <div onclick="toggleGravity()" title="Gravitation AN/AUS">G</div>
+        <div onclick="toggleAnimation()" title="Pausieren"><i class="fa fa-pause"></i></div>
+        <div onclick="toggleHelp()" title="Hilfe">?</div>
+        <div onclick="displayTextField('')" title="Lade eine Szene">=</div>
+        <div onclick="saveScene()" title="Speichere eine Szene">*</div>
+    </div>
+
+    <!-- ############# Graph settings window ############ -->
+
+    <div class="modal" id="graph-settings">
+        <div class="modal-dialog">
+            <div class="modal-content" style="height: 400px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="document.getElementById('graph-settings').style.display = 'none'">x</button>
+                    <h4 class="modal-title">Graph Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="part">
+                        <p>Y-Achsen Skalierung: <input style="margin-left: 5px; width: 30px; text-align: center;" value="1" id="scale-input"></p><br>
+                        <p>Start-Linie: <input style="margin-left: 15px; width: 30px; text-align: center;" value="0" id="line-input"></p><br>
+                    </div>
+                    <div class="part">
+                        <!-- <div id="selector"></div>  Being filled with js -->
+                        <div id="selector2">
+                            <div class='element' onclick='selectedElement.recordMode = 1'>X Geschwindigkeit</div>
+                            <div class='element' onclick='selectedElement.recordMode = 2'>Y Geschwindigkeit</div>
+                            <div class='element' onclick='selectedElement.recordMode = 3'>Geschwindigkeit</div>
+                            <div class='element' onclick='selectedElement.recordMode = 4'>Impuls</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="margin-top: 20px; display:block; float:right;">
+                    <button type="button" class="btn btn-danger" onclick="resetGraph()">Zurücksetzen</button>
+                    <button type="button" class="btn btn-primary" onclick="saveGraphSettings()">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ############### Nachträgliche Berechnung #################### -->
+    <div id="ac-root">
+        <div id="afterwardscalc">
+            <div class="progress progress-striped" id="loading-container">
+                <div class="progress-bar progress-bar-warning" id="loading" style="width: 0%;"></div>
+            </div>
+            <div id="ac-content">
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ############### Hilfe Dialog ############## -->
+
+    <div id="help-wrapper" style="display: none">
+        <div id="help-dialogue">
+            <h1>Hilfe</h1>
+            <p><span>- Objekte bewegen:</span> Mit einem linken Mausklick lässt sich ein Objekt auswählen. Nun kann durch das Ziehen dieses Objektes ein Impuls verliehen werden, welcher
+            einer Wurfbewegung ähnelt. <br><br>
+            <span>- Konsole:</span> Nach dem Auswählen eines Objekts füllt sich das Editor Fenster an der Seite. Dort lässt sich auch eine Konsole feststellen, in der man JavaScript Befehle
+            eingeben kann. Bsp. hierfür wären: <span>this.friction = 0.9 => this.*VARIABLE* = *WERT* </span>. Ein Bsp. um die Geschwindigkeit zu verändern wäre ebenso:
+            <span> this.velocity[0] = 5 . velocity[0]</span> steht hierbei für die X Geschwindigkeit und velocity[1] für die Y Geschwindigkeit.</p>
+            <div class="graph-button" onclick="toggleHelp()" style="display: inline; float: right; margin-right: 20px;">Schließen</div>
+        </div>
+    </div>
+
+    <!-- ############### Javascript Imports ############## -->
+
+    <script src="src/AfterwardsCalc.js"></script>
+    <script src="src/Main.js"></script>
+    <script src="src/Editor.js"></script>
+    <script src="src/Graph.js"></script>
+    <script src="src/loadScene.js"></script>
+    <script src="src/AlexUtils.js"></script>
+</body>
+</html>
